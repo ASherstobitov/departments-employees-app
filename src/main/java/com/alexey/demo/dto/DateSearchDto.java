@@ -1,4 +1,4 @@
-package com.alexey.demo.controller.dto;
+package com.alexey.demo.dto;
 
 
 import lombok.Getter;

@@ -1,13 +1,12 @@
 package com.alexey.demo.controller;
 
-import com.alexey.demo.controller.dto.DateSearchDto;
+import com.alexey.demo.dto.DateSearchDto;
 import com.alexey.demo.entity.Employee;
 import com.alexey.demo.service.DepartmentService;
 import com.alexey.demo.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
