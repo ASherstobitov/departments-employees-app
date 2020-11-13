@@ -3,6 +3,7 @@ package com.alexey.demo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Employee {
 
     @NonNull
     @Column(name = "birthday")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     @NonNull

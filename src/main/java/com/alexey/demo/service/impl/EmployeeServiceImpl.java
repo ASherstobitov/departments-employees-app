@@ -8,6 +8,9 @@ import com.alexey.demo.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -50,6 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployee(Long id) {
         return employeeRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Employee> getAllEmployeesWithDateBirthBetween(LocalDate startDate, LocalDate endDate) {
+        return employeeRepository.getAllByBirthdayBetween(startDate, endDate);
     }
 
 
