@@ -1,11 +1,11 @@
 package com.alexey.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -18,9 +18,8 @@ import java.time.LocalDate;
 public class Employee {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
     @Column(name = "first_name")
@@ -42,7 +41,6 @@ public class Employee {
     @NonNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
                     CascadeType.MERGE, CascadeType.REFRESH})
-//    @JoinColumn(foreignKey = @ForeignKey(name = "department_id"))
     @JoinColumn(name = "department_id")
     private Department department;
 

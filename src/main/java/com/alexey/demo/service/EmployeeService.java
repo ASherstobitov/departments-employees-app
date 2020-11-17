@@ -1,7 +1,6 @@
 package com.alexey.demo.service;
 
 import com.alexey.demo.entity.Employee;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +9,12 @@ public interface EmployeeService {
 
     void deleteEmployee(Long id);
 
-    Employee findEmployee(Long id);
+    List<Employee> getAllEmployeesByDepartment(Long id);
+
+    Employee getEmployee(Long id);
 
     List<Employee> getAllEmployeesWithDateBirthBetween(LocalDate startDate, LocalDate endDate);
+
+    List<Employee> getAllEmployees();
+
 }
