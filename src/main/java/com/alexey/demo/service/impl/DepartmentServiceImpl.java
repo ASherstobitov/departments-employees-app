@@ -8,7 +8,6 @@ import com.alexey.demo.service.DepartmentService;
 import com.alexey.demo.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
@@ -24,17 +23,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final EmployeeService employeeService;
 
     @Override
-    public Department saveOrUpdate(Department department) {
-        Department theDepart = null;
-        if (department.getId() != null) {
-            theDepart = getDepartment(department.getId());
-            theDepart.setDepartName(department.getDepartName());
-            theDepart.setEmployees(employeeService.getAllEmployeesByDepartment(department.getId()));
-            theDepart.setAmountEmployees(countEmployees(department.getId()));
-            theDepart.setAverageSalary(setAverageSalaryById(department.getId()));
-        } else {
-            theDepart = department;
+    public Department saveDepartment(Department department) {
+        return departmentRepository.save(department);
+    }
+
+    @Override
+    public Department updateDepartment(Department department) {
+        if (department.getId() == null) {
+            throw new IllegalArgumentException("Department must be with id");
         }
+
+        Department theDepart = departmentRepository.findById(department.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Department don't find by id: "
+                        + department.getId()));
+
+        theDepart.setDepartName(department.getDepartName());
+        theDepart.setEmployees(employeeService.getAllEmployeesByDepartment(department.getId()));
+        theDepart.setAmountEmployees(countEmployees(department.getId()));
+        theDepart.setAverageSalary(setAverageSalaryById(department.getId()));
+
         return departmentRepository.save(theDepart);
     }
 
@@ -60,7 +67,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartment(Long id) {
+    public Department getDepartmentById(Long id) {
         Optional<Department> optional = departmentRepository.findById(id);
         Department department = null;
         if (optional.isPresent()) {
@@ -70,10 +77,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteDepartment(Long id) {
         departmentRepository.deleteById(id);
     }
-
     public Double countAverageSalary(List<Employee> employees) {
         DoubleSummaryStatistics stats = employees.stream()
                 .mapToDouble((x) -> x.getSalary())

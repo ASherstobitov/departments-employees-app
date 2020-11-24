@@ -5,12 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Table(name = "department")
 @Setter
 @Getter
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class Department {
 
@@ -19,7 +17,6 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
     @Column(name = "department_name")
     private String departName;
 
@@ -30,11 +27,15 @@ public class Department {
     private int amountEmployees;;
 
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department",
+            cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Employee> employees;
 
 
+    public Department(String departName) {
+        this.departName = departName;
+    }
 }
 
 

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -24,13 +21,19 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeService.saveOrUpdate(employee);
+    public Employee saveEmployee(@RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
+    }
+
+    @GetMapping("/{id}")
+    public Employee getEmployee(@PathVariable Long id) {
+        return employeeService.getEmployee(id);
     }
 
     @PutMapping
     public Employee updateEmployee(@RequestBody Employee employee) {
-        return employeeService.saveOrUpdate(employee);
+
+        return employeeService.updateEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
@@ -38,16 +41,6 @@ public class EmployeeController {
         long tempId = employeeService.getEmployee(id).getDepartment().getId();
         employeeService.deleteEmployee(id);
         return employeeService.getAllEmployeesByDepartment(tempId);
-    }
-
-    @GetMapping("/birthday-between")
-    public List<Employee> getEmployeesByDateBirthBetween(@RequestParam(value = "startDate") String startDate,
-                                                         @RequestParam(value = "endDate") String endDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        LocalDate start = LocalDate.parse(startDate, dateTimeFormatter);
-        LocalDate end = LocalDate.parse(endDate, dateTimeFormatter);
-        return employeeService.getAllEmployeesWithDateBirthBetween(start, end);
     }
 
     @GetMapping("/department/{id}")
